@@ -22,11 +22,14 @@ public class MemberController {
     }
 
     @PostMapping("/")
-    public String login(@ModelAttribute Member m, Model model){
+    public String login(@ModelAttribute Member member, Model model){
+        //Check if crediatils is in the arrayList
+        Member m = memberRepository.read(member.getEmail());
+        if(m != null){
+            model.addAttribute("members", memberRepository.readAll());
+            return "secret";
+        }
+        return "index";
 
-        model.addAttribute("members", memberRepository.readAll());
-        //System.out.println(m.getEmail());
-        //System.out.println(m.getPassword());
-        return "secret";
     }
 }
